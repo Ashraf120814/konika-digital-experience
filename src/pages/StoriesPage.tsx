@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { stories } from '../data/stories';
+import { productImagePool, imgSrc } from '../data/images';
 
 const cats = ['All', 'Education', 'Craftsmanship', 'Heritage', 'Styling', 'Bridal', 'Gifting', 'Behind The Scenes'];
 
@@ -22,8 +23,13 @@ export function StoriesPage() {
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {stories.map((s) => (
           <Link key={s.id} to={`/stories/${s.slug}`} className="group border border-charcoal/8 hover:border-gold/40 transition-colors">
-            <div className="aspect-[16/10] bg-gradient-to-br from-beige to-ivory-deep flex items-center justify-center">
-              <span className="font-serif text-4xl text-gold/25 group-hover:text-gold/40 transition-colors">{s.title[0]}</span>
+            <div className="aspect-[16/10] overflow-hidden bg-ivory-deep">
+              <img
+                src={imgSrc(productImagePool[parseInt(s.id.replace(/\D/g,'')||'1',10) % productImagePool.length], 1000)}
+                alt=""
+                loading="lazy"
+                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
             </div>
             <div className="p-5">
               <p className="text-[10px] tracking-widest uppercase text-gold-dark mb-1">{s.category} · {s.readingTime}</p>

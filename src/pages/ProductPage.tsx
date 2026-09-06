@@ -3,8 +3,42 @@ import { Link, useParams } from 'react-router-dom';
 import { Heart, MessageCircle, Calendar } from 'lucide-react';
 import { getProductBySlug, products, formatPrice } from '../data/products';
 import { useStore } from '../context/StoreContext';
-import { productGradient, cn } from '../lib/utils';
+import { cn } from '../lib/utils';
+import { imagesForProduct, imgSrc } from '../data/images';
 import { ProductCard } from '../components/ProductCard';
+
+
+function ProductGallery({ productId, category, name }: { productId: string; category: string; name: string }) {
+  const [primary, secondary] = imagesForProduct(productId, category);
+  const shots = [primary, secondary, primary, secondary];
+  const [active, setActive] = useState(0);
+  return (
+    <div>
+      <div className="aspect-square overflow-hidden rounded-sm bg-ivory-deep">
+        <img
+          src={imgSrc(shots[active], 1400)}
+          alt={name}
+          className="h-full w-full object-cover"
+        />
+      </div>
+      <div className="mt-3 grid grid-cols-4 gap-2">
+        {shots.map((src, i) => (
+          <button
+            key={i}
+            type="button"
+            onClick={() => setActive(i)}
+            className={cn(
+              'aspect-square overflow-hidden rounded-sm border-2',
+              active === i ? 'border-gold' : 'border-transparent'
+            )}
+          >
+            <img src={imgSrc(src, 300)} alt="" className="h-full w-full object-cover" />
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export function ProductPage() {
   const { id } = useParams();
@@ -47,9 +81,7 @@ export function ProductPage() {
       </nav>
 
       <div className="grid md:grid-cols-2 gap-10">
-        <div className={cn('aspect-square bg-gradient-to-br flex items-center justify-center', productGradient(product))}>
-          <span className="font-serif text-6xl text-gold/30">◆</span>
-        </div>
+        <ProductGallery productId={product.id} category={product.category} name={product.name} />
         <div>
           <p className="text-[11px] tracking-widest uppercase text-gold-dark mb-2">
             {product.collection} · {product.category}

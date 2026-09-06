@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { products } from '../data/products';
 import { ProductCard } from '../components/ProductCard';
+import { siteImages, categoryImages, collectionImages, imgSrc } from '../data/images';
 
 const categories = [
   { name: 'Rings', to: '/jewellery?category=Rings', emoji: '💍' },
@@ -30,7 +31,12 @@ export function Home() {
     <div>
       {/* Hero */}
       <section className="relative min-h-[72vh] flex items-center justify-center overflow-hidden bg-charcoal">
-        <div className="absolute inset-0 bg-gradient-to-br from-charcoal via-charcoal-soft to-charcoal opacity-95" />
+        <img
+          src={imgSrc(siteImages.hero, 2400)}
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover opacity-40"
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-charcoal/90 via-charcoal/75 to-charcoal/90" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(184,154,98,0.15),_transparent_60%)]" />
         <div className="relative z-10 text-center px-4 max-w-3xl mx-auto py-20">
           <p className="text-gold text-[11px] tracking-[0.25em] uppercase mb-4">
@@ -70,15 +76,23 @@ export function Home() {
             <Link
               key={c.name}
               to={c.to}
-              className="group aspect-[3/4] bg-ivory-deep rounded-sm flex flex-col items-center justify-center gap-3 border border-transparent hover:border-gold/40 transition-all"
+              className="group relative aspect-[3/4] overflow-hidden rounded-sm border border-transparent hover:border-gold/40 transition-all"
             >
-              <span className="text-2xl opacity-60 group-hover:scale-110 transition-transform">{c.emoji}</span>
-              <span className="text-xs tracking-widest uppercase text-charcoal/80 group-hover:text-gold-dark">
-                {c.name}
-              </span>
-              <span className="text-[10px] text-muted opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
-                Explore <ArrowRight className="h-3 w-3" />
-              </span>
+              <img
+                src={imgSrc(categoryImages[c.name] || siteImages.hero, 700)}
+                alt={c.name}
+                loading="lazy"
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/20 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 p-4 text-center">
+                <span className="text-xs tracking-widest uppercase text-ivory">
+                  {c.name}
+                </span>
+                <span className="mt-1 text-[10px] text-ivory/70 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1">
+                  Explore <ArrowRight className="h-3 w-3" />
+                </span>
+              </div>
             </Link>
           ))}
         </div>
@@ -118,10 +132,13 @@ export function Home() {
               to={`/collections/${col.slug}`}
               className="group border border-charcoal/8 p-6 hover:border-gold/50 transition-colors"
             >
-              <div className="aspect-[16/10] bg-gradient-to-br from-beige to-ivory-deep mb-4 flex items-center justify-center">
-                <span className="font-serif text-4xl text-gold/30 group-hover:text-gold/50 transition-colors">
-                  {col.name[0]}
-                </span>
+              <div className="aspect-[16/10] mb-4 overflow-hidden bg-ivory-deep">
+                <img
+                  src={imgSrc(collectionImages[col.name] || siteImages.hero, 1000)}
+                  alt={col.name}
+                  loading="lazy"
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
               </div>
               <h3 className="font-serif text-xl mb-1">{col.name}</h3>
               <p className="text-sm text-muted mb-3">{col.story}</p>
@@ -187,8 +204,14 @@ export function Home() {
       </section>
 
       {/* Heritage */}
-      <section className="bg-charcoal text-ivory py-20">
-        <div className="mx-auto max-w-3xl px-4 text-center">
+      <section className="relative bg-charcoal text-ivory py-20 overflow-hidden">
+        <img
+          src={imgSrc(siteImages.heritage, 2000)}
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover opacity-25"
+        />
+        <div className="absolute inset-0 bg-charcoal/70" />
+        <div className="relative mx-auto max-w-3xl px-4 text-center">
           <p className="text-gold text-[11px] tracking-[0.2em] uppercase mb-3">Heritage</p>
           <h2 className="font-serif text-3xl md:text-4xl mb-5">Crafted With Meaning.</h2>
           <p className="text-ivory/70 font-light leading-relaxed mb-8">

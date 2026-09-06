@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getRecommendations, formatPrice, productGradient, cn } from '../lib/utils';
+import { getRecommendations, formatPrice, cn } from '../lib/utils';
+import { imagesForProduct, imgSrc } from '../data/images';
 import type { FinderAnswers, Occasion, Style } from '../types';
 import { useStore } from '../context/StoreContext';
 
@@ -77,8 +78,13 @@ export function FinderPage() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {results.map((p) => (
             <article key={p.id} className="border border-charcoal/8 overflow-hidden">
-              <div className={cn('aspect-square relative bg-gradient-to-br flex items-center justify-center', productGradient(p))}>
-                <span className="font-serif text-4xl text-gold/30">◆</span>
+              <div className="aspect-square relative overflow-hidden bg-ivory-deep">
+                <img
+                  src={imgSrc(imagesForProduct(p.id, p.category)[0], 800)}
+                  alt={p.name}
+                  loading="lazy"
+                  className="h-full w-full object-cover"
+                />
                 <span className="absolute top-3 right-3 bg-charcoal text-gold-light text-[10px] px-2 py-1 tracking-wide">
                   {p.match}% Match
                 </span>
