@@ -26,6 +26,7 @@ import {
   searchProducts,
 } from './knowledge';
 import { formatPrice } from '../data/products';
+import { matchScenario } from './scenarios/indianCustomerScenarios';
 
 export interface AgentContext {
   messages: ChatMessage[];
@@ -72,6 +73,12 @@ const ESCALATION_PHRASES = [
   'refund immediately',
   'very angry',
   'worst service',
+  'customer care executive',
+  'human agent',
+  'insaan se baat',
+  'agent se baat',
+  'complaint register',
+  'consumer court',
 ];
 
 const SENSITIVE_REQUEST = [
@@ -85,25 +92,29 @@ const SENSITIVE_REQUEST = [
 
 function detectIntent(text: string): { category: QueryCategory; subcategory: string } {
   const t = text.toLowerCase();
-  if (/order|track|where is my|delivery status|kj\d+/i.test(t))
+  if (/order|track|where is my|delivery status|kj\d+|parcel|shipment/i.test(t))
     return { category: 'Orders', subcategory: 'Order status' };
-  if (/return|exchange|refund|buyback/i.test(t))
+  if (/return|exchange|refund|buyback|old gold|purana sona|scrap gold/i.test(t))
     return { category: 'Returns', subcategory: 'Returns & exchange' };
-  if (/ship|deliver|courier|when will/i.test(t))
+  if (/ship|deliver|courier|when will|pincode|pin code|cod/i.test(t))
     return { category: 'Shipping', subcategory: 'Delivery timeline' };
-  if (/pay|payment|upi|failed transaction/i.test(t))
+  if (/pay|payment|upi|failed transaction|gpay|phonepe|money deducted/i.test(t))
     return { category: 'Payments', subcategory: 'Payment issue' };
-  if (/care|clean|maintain|store jewellery/i.test(t))
+  if (/care|clean|maintain|polish|repair|broken chain/i.test(t))
     return { category: 'Jewellery Care', subcategory: 'Care tips' };
-  if (/plan|scheme|monthly|instalment|installment/i.test(t))
+  if (/plan|scheme|monthly|instalment|installment|gold scheme|11 month|zero%/i.test(t))
     return { category: 'Purchase Plans', subcategory: 'Gold purchase plan' };
-  if (/store|address|hours|open|location|contact|phone|visit/i.test(t))
+  if (/store|address|hours|open|location|contact|phone|visit|showroom|sowcarpet|chennai/i.test(t))
     return { category: 'Store', subcategory: 'Store info' };
-  if (/price|cost|how much|available|stock|product|ring|earring|necklace|mangalsutra|polki|temple/i.test(t))
+  if (/hallmark|22k|18k|916|wastage|making charge|gst|purity|bis/i.test(t))
+    return { category: 'Policies', subcategory: 'Gold & billing policy' };
+  if (/wedding|bridal|shaadi|mangalsutra|engagement|diwali|akshaya|navratri|polki|temple|meenakari/i.test(t))
+    return { category: 'Products', subcategory: 'Occasion / collection' };
+  if (/price|cost|how much|kitne|available|stock|product|ring|earring|necklace|bracelet|pendant|budget/i.test(t))
     return { category: 'Products', subcategory: 'Product enquiry' };
   if (/offer|discount|sale|promo/i.test(t))
     return { category: 'Products', subcategory: 'Offers' };
-  if (/complaint|angry|terrible|worst|fraud/i.test(t))
+  if (/complaint|angry|terrible|worst|fraud|consumer court/i.test(t))
     return { category: 'Complaints', subcategory: 'Complaint' };
   if (/policy|return policy|shipping policy/i.test(t))
     return { category: 'Policies', subcategory: 'Policy' };
@@ -112,8 +123,9 @@ function detectIntent(text: string): { category: QueryCategory; subcategory: str
 
 function detectSentiment(text: string): Sentiment {
   const t = text.toLowerCase();
-  if (/thank|thanks|great|wonderful|appreciate|helpful|love/i.test(t)) return 'Positive';
-  if (/angry|terrible|worst|fraud|scam|hate|useless|pathetic|disgusting/i.test(t))
+  if (/thank|thanks|great|wonderful|appreciate|helpful|love|dhanyavad|shukriya|bahut accha/i.test(t))
+    return 'Positive';
+  if (/angry|terrible|worst|fraud|scam|hate|useless|pathetic|disgusting|bakwas|bekaar|dhoka|cheating/i.test(t))
     return 'Negative';
   return 'Neutral';
 }
@@ -170,6 +182,27 @@ export function processMessage(
   const actions: string[] = [];
   const settings = loadSettings();
   const kb = loadKnowledge();
+
+  // Indian customer scenario library (broad phrase coverage)
+  const scenarioHit = matchScenario(text);
+  if (scenarioHit && scenarioHit.score >= 2) {
+    const s = scenarioHit.scenario;
+    // Still allow order ID extraction to override pure FAQ if both present
+    const oidInText = extractOrderId(text);
+    if (!(s.category === 'Orders' && oidInText)) {
+      return {
+        text: s.response,
+        context: { ...ctx, lastIntent: s.id, productsDiscussed: [...ctx.productsDiscussed] },
+        category: s.category,
+        subcategory: s.subcategory,
+        sentiment: detectSentiment(text),
+        priority: detectPriority(text, s.category, detectSentiment(text)),
+        confidence: s.confidence,
+        actions: [`Matched scenario ${s.id}`],
+        shouldEscalate: false,
+      };
+    }
+  }
 
   // Safety: never request secrets
   if (SENSITIVE_REQUEST.some((s) => text.toLowerCase().includes(s))) {

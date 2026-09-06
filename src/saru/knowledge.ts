@@ -107,7 +107,158 @@ export const defaultKnowledge: KnowledgeItem[] = [
     updatedAt: new Date().toISOString(),
     active: true,
   },
+  {
+    id: 'kb-in-hallmark',
+    type: 'faq',
+    title: 'BIS hallmark & HUID',
+    content:
+      'BIS hallmarking indicates gold purity in India (e.g. 22K/916). Many newer pieces also carry HUID. Always keep your invoice. For a specific product’s marks, check the piece in-store or product notes — Saru does not invent certificate IDs.',
+    tags: ['hallmark', 'bis', 'huid', 'purity', '916'],
+    updatedAt: new Date().toISOString(),
+    active: true,
+  },
+  {
+    id: 'kb-in-making',
+    type: 'faq',
+    title: 'Making charges explained',
+    content:
+      'Making charges pay for craftsmanship and design, separate from gold value. They vary by design. Demo product pages show illustrative breakups. Final charges are on the tax invoice at purchase.',
+    tags: ['making charges', 'labour', 'bill'],
+    updatedAt: new Date().toISOString(),
+    active: true,
+  },
+  {
+    id: 'kb-in-wastage',
+    type: 'faq',
+    title: 'What is wastage?',
+    content:
+      'Wastage is a manufacturing-related charge some jewellers apply on gold weight. Scheme benefits (such as no wastage up to 10% under public Zero% plan Option A) apply only as per official enrolment terms.',
+    tags: ['wastage', 'scheme'],
+    updatedAt: new Date().toISOString(),
+    active: true,
+  },
+  {
+    id: 'kb-in-oldgold',
+    type: 'faq',
+    title: 'Old gold exchange',
+    content:
+      'Old gold is typically evaluated at the store for purity and weight. Rates are not fixed online. Bring jewellery and valid ID. Saru cannot quote exchange rates.',
+    tags: ['old gold', 'exchange', 'scrap'],
+    updatedAt: new Date().toISOString(),
+    active: true,
+  },
+  {
+    id: 'kb-in-wedding',
+    type: 'faq',
+    title: 'Choosing wedding jewellery',
+    content:
+      'Start with essentials (mangalsutra, daily earrings) then statement sets (temple, polki, antique). Use occasion filters and Find My Jewellery. Bridal trials are best in-store.',
+    tags: ['wedding', 'bridal', 'shaadi'],
+    updatedAt: new Date().toISOString(),
+    active: true,
+  },
+  {
+    id: 'kb-in-festival',
+    type: 'faq',
+    title: 'Buying gold on festivals',
+    content:
+      'Diwali, Akshaya Tritiya, Pongal, Onam, Navratri and similar festivals are popular for gold purchases. Offers only apply if published; Saru will not invent festival discounts.',
+    tags: ['diwali', 'akshaya tritiya', 'festival', 'pongal'],
+    updatedAt: new Date().toISOString(),
+    active: true,
+  },
+  {
+    id: 'kb-in-mangalsutra',
+    type: 'faq',
+    title: 'Mangalsutra',
+    content:
+      'Mangalsutra styles vary by region. Catalogue includes classic and diamond-accented options. Custom thali designs need store consultation.',
+    tags: ['mangalsutra', 'thali'],
+    updatedAt: new Date().toISOString(),
+    active: true,
+  },
+  {
+    id: 'kb-in-size',
+    type: 'faq',
+    title: 'Ring and bangle sizing',
+    content:
+      'Prefer in-store measurement. Resizing depends on design. Wrong-size online orders are handled per exchange policy with Order ID and invoice.',
+    tags: ['size', 'ring size', 'bangle'],
+    updatedAt: new Date().toISOString(),
+    active: true,
+  },
+  {
+    id: 'kb-in-cod',
+    type: 'faq',
+    title: 'Cash on delivery',
+    content:
+      'COD depends on checkout rules and location. Do not assume COD for high-value jewellery. Prefer UPI/cards at official checkout only.',
+    tags: ['cod', 'cash on delivery'],
+    updatedAt: new Date().toISOString(),
+    active: true,
+  },
+  {
+    id: 'kb-in-gst',
+    type: 'faq',
+    title: 'GST on jewellery',
+    content:
+      'GST is applied as per Indian tax rules and appears on the invoice. Demo breakups are illustrative only.',
+    tags: ['gst', 'tax', 'invoice'],
+    updatedAt: new Date().toISOString(),
+    active: true,
+  },
+  {
+    id: 'kb-in-repair',
+    type: 'faq',
+    title: 'Jewellery repair',
+    content:
+      'Repairs are assessed in-store. For transit damage on an order, share Order ID for support handling.',
+    tags: ['repair', 'broken'],
+    updatedAt: new Date().toISOString(),
+    active: true,
+  },
+  {
+    id: 'kb-in-custom',
+    type: 'faq',
+    title: 'Custom / made-to-order',
+    content:
+      'Custom designs need store consultation for weight, making, and timeline. Saru cannot promise custom delivery dates online.',
+    tags: ['custom', 'made to order'],
+    updatedAt: new Date().toISOString(),
+    active: true,
+  },
+  {
+    id: 'kb-in-upi',
+    type: 'faq',
+    title: 'UPI payments',
+    content:
+      'UPI is widely used. Never share UPI PIN or OTP with anyone including support chat. Failed debits: share Order ID for escalation.',
+    tags: ['upi', 'gpay', 'phonepe'],
+    updatedAt: new Date().toISOString(),
+    active: true,
+  },
+  {
+    id: 'kb-in-temple',
+    type: 'faq',
+    title: 'Temple jewellery',
+    content:
+      'Temple jewellery features South Indian temple-inspired motifs. Browse the Temple collection for demo products.',
+    tags: ['temple', 'south indian'],
+    updatedAt: new Date().toISOString(),
+    active: true,
+  },
+  {
+    id: 'kb-in-polki',
+    type: 'faq',
+    title: 'Polki jewellery',
+    content:
+      'Polki uses uncut diamonds in traditional settings, popular for bridal wear. See Polki collection for catalogue items.',
+    tags: ['polki', 'uncut diamond'],
+    updatedAt: new Date().toISOString(),
+    active: true,
+  },
 ];
+
 
 /** Demo order database — replace with real Order API */
 export const mockOrders: MockOrder[] = [
